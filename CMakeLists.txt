@@ -8,7 +8,7 @@ set(PROJECT_NAME uavccan-templae-c)
 
 # Set the name of the executable
 
-set(EXECUTABLE_NAME can-node)
+set(EXECUTABLE_NAME master-can-node)
 
 # Set the inlude include directories
 
@@ -17,7 +17,8 @@ set(INLUDE_DIRS libcanard socketcan)
 # Set the sources {include the headers}
 
 set(MAIN_SOURCE ./src/main.c)
-set(LIBCANARD_SRC libcanard/canard.c libcanard/canard.h) 
+set(LIBCANARD_SRC libcanard/canard.c libcanard/canard.h)
+set(LIB_DSDL_SRC libcanard/canard_dsdl.h libcanard/canard_dsdl.c) 
 set(SOCKETCAN_SRC socketcan/socketcan.h socketcan/socketcan.c)
 
 ## SETTINGS END
@@ -27,7 +28,7 @@ include(CTest)
 enable_testing()
 
 include_directories(${INLUDE_DIRS})
-add_executable(${EXECUTABLE_NAME} ${MAIN_SOURCE} ${LIBCANARD_SRC} ${SOCKETCAN_SRC})
+add_executable(${EXECUTABLE_NAME} ${MAIN_SOURCE} ${LIBCANARD_SRC} ${LIB_DSDL_SRC} ${SOCKETCAN_SRC})
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
