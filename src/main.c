@@ -12,14 +12,18 @@
 #include <stdio.h>
 #include <time.h>
 
-/* Message Subject ID's 
- * where ID = [0, 24575]
- * for mandatory Heartbeat Message;
- * for Ultrasound Message,
- * ref. Unregulated identifiers (both fixed and non-fixed).
- *      SpecificationRevision v1.0-alpha, sec. 5.1.1
+/* Message Subject ID's
+ *
+ * Where ID = [0, 6143] for Unregulated identifiers (both fixed and non-fixed).
+ * and Ultrasound Message = 1610;
+ *
+ * Where ID = [7168, 8191] for Standard fixed regulated identifiers.
+ * and message uavcan.node.Heartbeat = 7509
+ *
+ * ref. Specification v1.0-beta,Revision 2020-10-16;
+ *      sec. 5.1.1, 5.3.2 and sec. 6.4.4.1
  */
-static const uint16_t HeartbeatSubjectID = 32085;
+static const uint16_t HeartbeatSubjectID = 7509;
 static const uint16_t UltrasoundMessageSubjectID = 1610;
 
 // Memory management.
@@ -36,7 +40,7 @@ static void canardFree(CanardInstance *const ins, void *const pointer)
 }
 
 /* Node heartbeat
- * ref. SpecificationRevision v1.0-alpha, sec. 5.3.2
+ * ref. Specification v1.0-beta,Revision 2020-10-16; sec. 5.3.2
  */
 static void publishHeartbeat(CanardInstance *const canard, const uint32_t uptime)
 {
@@ -51,6 +55,7 @@ static void publishHeartbeat(CanardInstance *const canard, const uint32_t uptime
         0,
     };
     const CanardTransfer transfer = {
+        .timestamp_usec = uptime,
         .priority = CanardPriorityNominal,
         .transfer_kind = CanardTransferKindMessage,
         .port_id = HeartbeatSubjectID,
